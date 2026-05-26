@@ -8,7 +8,8 @@ import { expectHistorico } from '../helpers/navigateHelper';
 import { validateExternalLink } from '../helpers/navigateHelper';
 import { validateDialog } from '../helpers/alertHelper';
 import { validateCustomModal } from '../helpers/alertHelper';
-import { expectCheckedCount,
+import {
+    expectCheckedCount,
     expectSelectedRadioCount,
     validateAllCheckboxes,
     selectCheckbox,
@@ -36,6 +37,7 @@ test('Elementos básicos - Caixa de Texto', async ({ page }) => {
     await expect(caixaDeTexto).toBeVisible();
 
     const texto = 'Automação 4uto por Thalis Ferreira.';
+    await caixaDeTexto.click();
     await caixaDeTexto.fill(texto);
 
     await expect(caixaDeTexto).toHaveValue(texto);
@@ -65,8 +67,11 @@ test('Elementos básicos - Seleção', async ({ page }) => {
 test('Elementos básicos - Controles (Slider e Interruptor)', async ({ page }) => {
     const slider = page.getByTestId('range-input');
     await expect(slider).toBeVisible();
-    await slider.fill('80');
 
+    await slider.evaluate((el: HTMLInputElement) => {
+        el.value = '80';
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
     await expect(slider).toHaveValue('80');
     await expect(page.getByText('Intervalo: 80')).toBeVisible();
 
@@ -182,7 +187,7 @@ test('Alertas e modais', async ({ page }) => {
     await validateDialog(page, confirmButton, 'confirm', 'Você confirma esta ação?');
     await expect(toastMessage).toBeVisible();
 
-    await validateCustomModal(openModal, modal, closeModalButton,'Modal Customizado');
+    await validateCustomModal(openModal, modal, closeModalButton, 'Modal Customizado');
 });
 
 test('Checkboxes e radios', async ({ page }) => {
