@@ -1,0 +1,24 @@
+# Node
+node_modules
+
+# Playwright
+playwright-report
+test-results
+
+# Cypress
+cypress/videos
+cypress/screenshots
+
+# Logs
+logs
+*.log
+
+# Python
+__pycache__
+
+# IDE
+.vscode
+
+# OS
+.DS_Store
+Thumbs.db
